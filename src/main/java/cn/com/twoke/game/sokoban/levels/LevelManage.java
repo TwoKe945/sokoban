@@ -26,7 +26,7 @@ public class LevelManage {
 
     public LevelManage( Playing playing) {
         this.playing = playing;
-        levelNo = 1; // 默认第一关
+        levelNo = 0; // 默认第一关
         loadLevels();
         init();
     }
@@ -121,14 +121,19 @@ public class LevelManage {
 
     public boolean isOk() {
         int count = 0;
+        boolean isSuccess;
         for (int i = 0; i < endPoints.size(); i++) {
+            isSuccess = false;
             for (int j = 0; j < boxs.size(); j++) {
                 if (boxs.get(j).getX() == endPoints.get(i).getX() &&
                         boxs.get(j).getY() == endPoints.get(i).getY()
                 ) {
+                    isSuccess = true;
                     count++;
+                    break;
                 }
             }
+            endPoints.get(i).setSuccess(isSuccess);
         }
         return count == endPoints.size();
 

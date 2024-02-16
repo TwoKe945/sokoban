@@ -56,26 +56,22 @@ public class Playing extends AbstractGameState {
         drawLevel(g, gameObjects, bean -> bean.getY() > player.getY());
     }
 
-    private void drawLevel(Graphics g,List<GameObject> gameObjects, Predicate<GameObject> predicate) {
-        gameObjects.stream().filter(predicate).sorted((a,b) -> {
-            if (a.getX() == b.getX() && a.getY() == b.getY() && a instanceof Box && b instanceof EndPoint) {
-                return -1;
-            } else if (a.getX() == b.getX() && a.getY() == b.getY() && b instanceof Box && a instanceof EndPoint) {
-                return -1;
-            }else {
-                return a.getY() - b.getY();
-            }
-        }).forEach(bean -> {
-            if (bean instanceof Box) {
-                bean.drawImg(g, box);
-            } else if (bean instanceof EndPoint) {
-                bean.drawImg(g, ball);
-            } else {
-                bean.drawImg(g, wall);
-            }
-        });
+    private void drawLevel(Graphics g,List<? extends GameObject> gameObjects, Predicate<GameObject> predicate) {
+        gameObjects.stream().filter(predicate).sorted((a,b) -> a.getY() - b.getY()).forEach(bean -> drawGameObject(g, bean));
     }
 
+
+
+
+    private void drawGameObject(Graphics g,GameObject bean) {
+        if (bean instanceof Box) {
+            bean.drawImg(g, box);
+        } else if (bean instanceof EndPoint && !((EndPoint) bean).isSuccess()) {
+            bean.drawImg(g, ball);
+        } else if (bean instanceof  Wall) {
+            bean.drawImg(g, wall);
+        }
+    }
 
 
     @Override
