@@ -3,7 +3,6 @@ package cn.com.twoke.game.sokoban.levels;
 import cn.com.twoke.game.sokoban.constant.Global;
 import cn.com.twoke.game.sokoban.object.Box;
 import cn.com.twoke.game.sokoban.object.EndPoint;
-import cn.com.twoke.game.sokoban.object.GamePoint;
 import cn.com.twoke.game.sokoban.object.Wall;
 import cn.com.twoke.game.sokoban.state.Playing;
 import cn.com.twoke.game.sokoban.utils.ResourceLoader;
@@ -13,7 +12,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Data
 public class LevelManage {
@@ -28,7 +26,7 @@ public class LevelManage {
 
     public LevelManage( Playing playing) {
         this.playing = playing;
-        levelNo = 0; // 默认第一关
+        levelNo = 1; // 默认第一关
         loadLevels();
         init();
     }
@@ -53,7 +51,7 @@ public class LevelManage {
                     endPoints.add(new EndPoint(col, row));
                 }
                 if (levelData[row][col] == 3) {
-                    boxs.add(new Box(col, row, levelData));
+                    boxs.add(new Box(col, row, this));
                 }
                 // 初始化本关卡玩家位置
                 if (levelData[row][col] == 4) {
@@ -134,5 +132,14 @@ public class LevelManage {
         }
         return count == endPoints.size();
 
+    }
+
+    public boolean canMoveBox(Box box, int x, int y) {
+        for (Box box1 : boxs) {
+            if (box1 != box &&  box1.getY() == y && box1.getX() == x) {
+                return false;
+            }
+        }
+        return true;
     }
 }

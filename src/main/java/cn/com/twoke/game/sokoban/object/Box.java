@@ -3,6 +3,7 @@ package cn.com.twoke.game.sokoban.object;
 import cn.com.twoke.game.sokoban.constant.DirEnum;
 import cn.com.twoke.game.sokoban.constant.Global;
 import cn.com.twoke.game.sokoban.features.Movable;
+import cn.com.twoke.game.sokoban.levels.LevelManage;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,10 +18,11 @@ public class Box  extends GameObject implements Movable {
     boolean movable = true;
     boolean moving = false;
     DirEnum dir;
-    private int[][] levelData;
-    public Box(int x, int y, int[][] levelData) {
+    private LevelManage levelManage;
+
+    public Box(int x, int y, LevelManage levelManage) {
         super(x, y, 35, 45);
-        this.levelData = levelData;
+        this.levelManage = levelManage;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class Box  extends GameObject implements Movable {
                 case RIGHT -> xSpeed += 1;
                 case LEFT -> xSpeed -= 1;
             }
-            if (canMove(xSpeed, ySpeed)) { // 箱子是否可移动
+            if (levelManage.canMoveBox(this,this.x + xSpeed,this.y + ySpeed) && canMove(xSpeed, ySpeed)) { // 箱子是否可移动
                 this.setY(this.y + ySpeed);
                 this.setX(this.x + xSpeed);
             }
@@ -55,6 +57,6 @@ public class Box  extends GameObject implements Movable {
 
 
     public boolean canMove(int xSpeed, int ySpeed) {
-        return levelData[this.y + ySpeed][this.x + xSpeed] != 1;
+        return levelManage.getCurrentLevel().getLevelData()[this.y + ySpeed][this.x + xSpeed] != 1;
     }
 }
