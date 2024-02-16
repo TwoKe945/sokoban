@@ -46,7 +46,7 @@ public class Box  extends GameObject implements Movable {
                 case RIGHT -> xSpeed += 1;
                 case LEFT -> xSpeed -= 1;
             }
-            if (levelManage.canMoveBox(this,this.x + xSpeed,this.y + ySpeed) && canMove(xSpeed, ySpeed)) { // 箱子是否可移动
+            if (canMove(xSpeed, ySpeed)) { // 箱子是否可移动
                 this.setY(this.y + ySpeed);
                 this.setX(this.x + xSpeed);
             }
@@ -57,6 +57,6 @@ public class Box  extends GameObject implements Movable {
 
 
     public boolean canMove(int xSpeed, int ySpeed) {
-        return levelManage.getCurrentLevel().getLevelData()[this.y + ySpeed][this.x + xSpeed] != 1;
+        return levelManage.canMoveBox(this,this.x + xSpeed,this.y + ySpeed) && levelManage.getCurrentLevel().getLevelData()[this.y + ySpeed][this.x + xSpeed] != 1;
     }
 }

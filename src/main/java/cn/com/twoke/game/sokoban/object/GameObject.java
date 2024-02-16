@@ -11,10 +11,6 @@ import java.awt.image.BufferedImage;
 @Setter
 public class GameObject {
     /**
-     * 碰撞盒子
-     */
-    protected Rectangle collisionBox;
-    /**
      * x坐标
      */
     protected int x;
