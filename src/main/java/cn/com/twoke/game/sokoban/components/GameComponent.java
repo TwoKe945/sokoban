@@ -9,6 +9,7 @@ public interface GameComponent {
      * @param g
      */
     void draw(Graphics g);
+    default void draw(Graphics g, int x, int y) {};
 
     /**
      * 逻辑状态更新

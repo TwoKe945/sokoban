@@ -1,11 +1,16 @@
 package cn.com.twoke.game.sokoban.main;
 
-import cn.com.twoke.game.sokoban.components.GameComponent;
+import cn.com.twoke.game.sokoban.state.AbstractGameState;
+import cn.com.twoke.game.sokoban.state.GameSate;
+import cn.com.twoke.game.sokoban.state.GameStateEnum;
+import cn.com.twoke.game.sokoban.state.Playing;
+import lombok.Getter;
 
 import java.awt.*;
 
 
-public class Game implements Runnable, GameComponent {
+@Getter
+public class Game extends AbstractGameState implements Runnable {
     /**
      * FPS
      */
@@ -19,11 +24,24 @@ public class Game implements Runnable, GameComponent {
     private final GameWindow gameWindow;
     private Thread drawThread;
 
+
+    @Getter
+    private static GameSate currentState;
+
+    private Playing playing;
+
+
     public Game() {
+        init();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
         startDrawGameLoop();
+    }
+
+    private void init() {
+        playing = new Playing(this);
+        currentState = playing;
     }
 
     @Override
@@ -74,15 +92,26 @@ public class Game implements Runnable, GameComponent {
 
     @Override
     public void draw(Graphics g) {
-
+        switch (state()) {
+            case MENU -> {}
+            case PLAYING -> playing.draw(g);
+        }
     }
 
     @Override
     public void update() {
-
+        switch (state()) {
+            case MENU -> {}
+            case PLAYING -> playing.update();
+        }
     }
 
     public void windowLostFocus() {
         // TODO 窗口失去焦点时暂停游戏状态
+    }
+
+    @Override
+    public GameStateEnum state() {
+        return currentState.state();
     }
 }
