@@ -19,6 +19,7 @@ public class GameWindow {
         jframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
         jframe.add(gamePanel);
         jframe.setResizable(false);
+        jframe.setTitle("推箱子 V1.0");
         jframe.pack();
         // 设置显示位置到屏幕中间,必须在pack后面设置
         jframe.setLocationRelativeTo(null);

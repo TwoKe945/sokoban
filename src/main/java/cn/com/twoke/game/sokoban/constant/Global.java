@@ -5,7 +5,7 @@ public interface Global {
 
     interface Game {
         int DEFAULT_TILE_SIZE = 35;
-        float SCALE = 1.5f;
+        float SCALE = 1.0f;
         int TILE_SIZE = (int)(DEFAULT_TILE_SIZE * SCALE);
         int COLS = 16;
         int ROWS = 16;
